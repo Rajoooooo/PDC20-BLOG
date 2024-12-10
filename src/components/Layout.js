@@ -1,4 +1,3 @@
-// src/components/Layout.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -7,9 +6,8 @@ function Layout({ children }) {
   const storedUser = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
-    // Clear the user data from local storage and redirect to login page
     localStorage.removeItem('user');
-    window.location.href = '/login'; // or use react-router's useHistory if needed
+    window.location.href = '/login';
   };
 
   const toggleDropdown = () => {
@@ -25,6 +23,7 @@ function Layout({ children }) {
           <Link to="/blog">Blog</Link>
           <Link to="/about">About</Link>
           <Link to="/contact">Contact</Link>
+          <Link to="/profile">Profile</Link> {/* Profile link */}
         </nav>
         <div className="user-info" onClick={toggleDropdown}>
           <img
@@ -41,9 +40,7 @@ function Layout({ children }) {
         </div>
       </header>
 
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
     </div>
   );
 }

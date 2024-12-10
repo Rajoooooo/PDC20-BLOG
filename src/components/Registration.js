@@ -113,6 +113,10 @@ function Register() {
 
       existingUsers.push(newUser);
       localStorage.setItem('users', JSON.stringify(existingUsers));
+
+      // Store user data for profile page
+      localStorage.setItem('user', JSON.stringify(newUser));
+
       navigate('/login');
     }
   };
