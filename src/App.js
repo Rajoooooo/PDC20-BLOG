@@ -8,6 +8,7 @@ import CreateBlog from './Blog/CreateBlog'; // Import CreateBlog
 import ViewBlog from './Blog/ViewBlog'; // Import ViewBlog
 import Layout from './components/Layout'; // Import Layout
 import About from './Contents/AboutContent';
+import ContactContent from './Contents/ContactContent'; // Import ContactContent (contact form)
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/blog" element={<Layout><CreateBlog /></Layout>} /> {/* This is for creating a blog */}
           <Route path="/view-blog/:id" element={<Layout><ViewBlog /></Layout>} /> {/* View blog by ID */}
           <Route path="/about" element={<Layout><About /></Layout>} />
+          <Route path="/contact" element={<Layout><ContactContent /></Layout>} /> {/* New route for the contact form */}
         </Routes>
       </div>
     </Router>
