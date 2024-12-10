@@ -30,10 +30,14 @@ function CreateBlog() {
   };
 
   const deleteBlog = (index) => {
-    const storedBlogs = getBlogs();
-    storedBlogs.splice(index, 1);
-    localStorage.setItem('blogs', JSON.stringify(storedBlogs));
-    setActiveTab('view');
+    // Ask for confirmation before deleting
+    const confirmDelete = window.confirm('Are you sure you want to delete this blog?');
+    if (confirmDelete) {
+      const storedBlogs = getBlogs();
+      storedBlogs.splice(index, 1); // Remove the selected blog
+      localStorage.setItem('blogs', JSON.stringify(storedBlogs)); // Update localStorage
+      setActiveTab('view'); // Switch back to the "View" tab after deletion
+    }
   };
 
   return (
