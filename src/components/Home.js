@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+// src/components/Home.js
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './registration.css';
+import '../Contents/content.css'; // Ensure correct path and name
+import HomeContent from '../Contents/HomeContent';
 
 function Home() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [blogs, setBlogs] = useState([]);
   const storedUser = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Load blog posts from localStorage
+    const storedBlogs = JSON.parse(localStorage.getItem('blogs')) || [];
+    setBlogs(storedBlogs);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('user'); // Clear user data from localStorage
@@ -37,11 +47,9 @@ function Home() {
           </div>
         </div>
       </header>
+
       <main>
-        <h1>Welcome to the Home Page</h1>
-        <p>
-          You are logged in as <strong>{storedUser?.username}</strong>.
-        </p>
+        <HomeContent blogs={blogs} />
       </main>
     </div>
   );
