@@ -24,6 +24,20 @@ function Login() {
     navigate('/');
   };
 
+  const handleGoogleLogin = () => {
+    alert('Google login functionality');
+    // Add Google login functionality here
+  };
+
+  const handleFacebookLogin = () => {
+    alert('Facebook login functionality');
+    // Add Facebook login functionality here
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate('/register');
+  };
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -49,6 +63,17 @@ function Login() {
         {error && <p>{error}</p>}
         <button type="submit">Login</button>
       </form>
+
+      <div className="signup-prompt">
+        <p>Don't have an account? 
+          <button onClick={handleRegisterRedirect}>Register here</button>
+        </p>
+      </div>
+
+      <div className="social-login">
+        <button onClick={handleGoogleLogin} className="google-login">Login with Google</button>
+        <button onClick={handleFacebookLogin} className="facebook-login">Login with Facebook</button>
+      </div>
     </div>
   );
 }

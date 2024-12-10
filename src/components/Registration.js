@@ -23,7 +23,7 @@ function Register() {
     },
     additionalDetails: {
       aboutMe: '',
-      profilePic: null,
+      profilePic: null, // Base64 image string will be stored here
     },
   });
   const [error, setError] = useState('');
@@ -44,6 +44,22 @@ function Register() {
         [field]: value,
       },
     }));
+  };
+
+  const handleFileChange = (section, field, file) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [field]: reader.result, // Store Base64 string
+        },
+      }));
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const validateTab = () => {
@@ -93,6 +109,7 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (validateTab()) {
       const { personalInfo, contactInfo, additionalDetails, accountInfo } = formData;
 
@@ -115,9 +132,9 @@ function Register() {
       localStorage.setItem('users', JSON.stringify(existingUsers));
 
       // Store user data for profile page
-      localStorage.setItem('user', JSON.stringify(newUser));
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
 
-      navigate('/login');
+      navigate('/profile');
     }
   };
 
@@ -129,12 +146,13 @@ function Register() {
             key={index}
             className={`tab-button ${index === currentTab ? 'active' : ''}`}
             onClick={() => setCurrentTab(index)}
+            type="button"
           >
             {tab}
           </button>
         ))}
       </div>
-      <form onSubmit={handleSubmit}>
+      <div>
         <div className="tab-content">
           {currentTab === 0 && (
             <div className="tab-section">
@@ -223,11 +241,15 @@ function Register() {
               <input
                 type="file"
                 onChange={(e) =>
-                  handleInputChange('additionalDetails', 'profilePic', e.target.files[0])
+                  handleFileChange('additionalDetails', 'profilePic', e.target.files[0])
                 }
               />
               {formData.additionalDetails.profilePic && (
-                <p>Uploaded: {formData.additionalDetails.profilePic.name}</p>
+                <img
+                  src={formData.additionalDetails.profilePic}
+                  alt="Uploaded Preview"
+                  style={{ width: '100px', height: '100px' }}
+                />
               )}
             </div>
           )}
@@ -244,10 +266,12 @@ function Register() {
               Next
             </button>
           ) : (
-            <button type="submit">Register</button>
+            <button type="submit" onClick={handleSubmit}>
+              Register
+            </button>
           )}
         </div>
-      </form>
+      </div>
     </div>
   );
 }

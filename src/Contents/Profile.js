@@ -17,6 +17,11 @@ function Profile() {
     }
   }, [navigate]);
 
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    navigate('/login');
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -39,6 +44,9 @@ function Profile() {
           <p><strong>About Me:</strong> {user.aboutMe}</p>
         </div>
       </div>
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 }

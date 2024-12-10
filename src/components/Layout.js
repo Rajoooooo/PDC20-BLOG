@@ -26,11 +26,6 @@ function Layout({ children }) {
           <Link to="/profile">Profile</Link> {/* Profile link */}
         </nav>
         <div className="user-info" onClick={toggleDropdown}>
-          <img
-            src={storedUser?.profilePic || 'https://via.placeholder.com/40'}
-            alt="Profile"
-            className="profile-pic"
-          />
           <span>{storedUser?.username}</span>
           {isDropdownOpen && (
             <div className="dropdown-menu">
