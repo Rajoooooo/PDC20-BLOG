@@ -4,30 +4,28 @@ import './registration.css';
 
 function Register() {
   const [currentTab, setCurrentTab] = useState(0);
-  const [personalInfo, setPersonalInfo] = useState({
-    firstName: '',
-    lastName: '',
-    dob: '',
-    gender: '',
+  const [formData, setFormData] = useState({
+    personalInfo: {
+      firstName: '',
+      lastName: '',
+      dob: '',
+      gender: '',
+    },
+    contactInfo: {
+      email: '',
+      phone: '',
+      address: '',
+    },
+    accountInfo: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
+    additionalDetails: {
+      aboutMe: '',
+      profilePic: null,
+    },
   });
-
-  const [contactInfo, setContactInfo] = useState({
-    email: '',
-    phone: '',
-    address: '',
-  });
-
-  const [accountInfo, setAccountInfo] = useState({
-    username: '',
-    password: '',
-    confirmPassword: '',
-  });
-
-  const [additionalDetails, setAdditionalDetails] = useState({
-    aboutMe: '',
-    profilePic: null,
-  });
-
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -39,47 +37,39 @@ function Register() {
   ];
 
   const handleInputChange = (section, field, value) => {
-    switch (section) {
-      case 'personalInfo':
-        setPersonalInfo({ ...personalInfo, [field]: value });
-        break;
-      case 'contactInfo':
-        setContactInfo({ ...contactInfo, [field]: value });
-        break;
-      case 'accountInfo':
-        setAccountInfo({ ...accountInfo, [field]: value });
-        break;
-      case 'additionalDetails':
-        setAdditionalDetails({ ...additionalDetails, [field]: value });
-        break;
-      default:
-        break;
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value,
+      },
+    }));
   };
 
   const validateTab = () => {
+    const { personalInfo, contactInfo, accountInfo } = formData;
     let isValid = true;
+    let message = '';
 
     switch (currentTab) {
       case 0:
         if (!personalInfo.firstName || !personalInfo.lastName || !personalInfo.dob || !personalInfo.gender) {
-          setError('All fields in Personal Information are required.');
+          message = 'All fields in Personal Information are required.';
           isValid = false;
         }
         break;
       case 1:
         if (!contactInfo.email || !contactInfo.phone || !contactInfo.address) {
-          setError('All fields in Contact Information are required.');
+          message = 'All fields in Contact Information are required.';
           isValid = false;
         }
         break;
       case 2:
         if (!accountInfo.username || !accountInfo.password || !accountInfo.confirmPassword) {
-          setError('All fields in Account Information are required.');
+          message = 'All fields in Account Information are required.';
           isValid = false;
-        }
-        if (accountInfo.password !== accountInfo.confirmPassword) {
-          setError('Passwords do not match.');
+        } else if (accountInfo.password !== accountInfo.confirmPassword) {
+          message = 'Passwords do not match.';
           isValid = false;
         }
         break;
@@ -87,43 +77,45 @@ function Register() {
         break;
     }
 
+    setError(message);
     return isValid;
   };
 
-  const handleNext = () => {
-    if (validateTab()) {
+  const handleNavigation = (direction) => {
+    if (direction === 'next' && validateTab()) {
       setError('');
       setCurrentTab((prev) => prev + 1);
+    } else if (direction === 'previous') {
+      setError('');
+      setCurrentTab((prev) => prev - 1);
     }
   };
 
-  const handlePrevious = () => {
-    setError('');
-    setCurrentTab((prev) => prev - 1);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateTab()) {
+      const { personalInfo, contactInfo, additionalDetails, accountInfo } = formData;
+
+      const newUser = {
+        ...personalInfo,
+        ...contactInfo,
+        ...additionalDetails,
+        username: accountInfo.username,
+        password: accountInfo.password,
+        fullName: `${personalInfo.firstName} ${personalInfo.lastName}`,
+      };
+
+      const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+      if (existingUsers.some((user) => user.username === accountInfo.username)) {
+        setError('Username already exists. Please choose another one.');
+        return;
+      }
+
+      existingUsers.push(newUser);
+      localStorage.setItem('users', JSON.stringify(existingUsers));
+      navigate('/login');
+    }
   };
-
-  // src/components/Registration.js
-const handleSubmit = (e) => {
-  e.preventDefault();
-
-  if (validateTab()) {
-    const userData = {
-      ...personalInfo,
-      ...contactInfo,
-      ...additionalDetails,
-      username: accountInfo.username,
-      password: accountInfo.password,
-      fullName: `${personalInfo.firstName} ${personalInfo.lastName}`, // Store full name
-    };
-
-    // Save user data in localStorage
-    localStorage.setItem('user', JSON.stringify(userData));
-
-    // Redirect to login page
-    navigate('/login');
-  }
-};
-
 
   return (
     <div className="register-container">
@@ -146,23 +138,22 @@ const handleSubmit = (e) => {
               <input
                 type="text"
                 placeholder="First Name"
-                value={personalInfo.firstName}
+                value={formData.personalInfo.firstName}
                 onChange={(e) => handleInputChange('personalInfo', 'firstName', e.target.value)}
               />
               <input
                 type="text"
                 placeholder="Last Name"
-                value={personalInfo.lastName}
+                value={formData.personalInfo.lastName}
                 onChange={(e) => handleInputChange('personalInfo', 'lastName', e.target.value)}
               />
               <input
                 type="date"
-                placeholder="Date of Birth"
-                value={personalInfo.dob}
+                value={formData.personalInfo.dob}
                 onChange={(e) => handleInputChange('personalInfo', 'dob', e.target.value)}
               />
               <select
-                value={personalInfo.gender}
+                value={formData.personalInfo.gender}
                 onChange={(e) => handleInputChange('personalInfo', 'gender', e.target.value)}
               >
                 <option value="">Select Gender</option>
@@ -177,19 +168,19 @@ const handleSubmit = (e) => {
               <input
                 type="email"
                 placeholder="Email"
-                value={contactInfo.email}
+                value={formData.contactInfo.email}
                 onChange={(e) => handleInputChange('contactInfo', 'email', e.target.value)}
               />
               <input
                 type="tel"
                 placeholder="Phone"
-                value={contactInfo.phone}
+                value={formData.contactInfo.phone}
                 onChange={(e) => handleInputChange('contactInfo', 'phone', e.target.value)}
               />
               <input
                 type="text"
                 placeholder="Address"
-                value={contactInfo.address}
+                value={formData.contactInfo.address}
                 onChange={(e) => handleInputChange('contactInfo', 'address', e.target.value)}
               />
             </div>
@@ -200,19 +191,19 @@ const handleSubmit = (e) => {
               <input
                 type="text"
                 placeholder="Username"
-                value={accountInfo.username}
+                value={formData.accountInfo.username}
                 onChange={(e) => handleInputChange('accountInfo', 'username', e.target.value)}
               />
               <input
                 type="password"
                 placeholder="Password"
-                value={accountInfo.password}
+                value={formData.accountInfo.password}
                 onChange={(e) => handleInputChange('accountInfo', 'password', e.target.value)}
               />
               <input
                 type="password"
                 placeholder="Confirm Password"
-                value={accountInfo.confirmPassword}
+                value={formData.accountInfo.confirmPassword}
                 onChange={(e) => handleInputChange('accountInfo', 'confirmPassword', e.target.value)}
               />
             </div>
@@ -222,7 +213,7 @@ const handleSubmit = (e) => {
               <h3>Additional Details</h3>
               <textarea
                 placeholder="About Me"
-                value={additionalDetails.aboutMe}
+                value={formData.additionalDetails.aboutMe}
                 onChange={(e) => handleInputChange('additionalDetails', 'aboutMe', e.target.value)}
               />
               <input
@@ -231,25 +222,25 @@ const handleSubmit = (e) => {
                   handleInputChange('additionalDetails', 'profilePic', e.target.files[0])
                 }
               />
+              {formData.additionalDetails.profilePic && (
+                <p>Uploaded: {formData.additionalDetails.profilePic.name}</p>
+              )}
             </div>
           )}
         </div>
         {error && <p className="error">{error}</p>}
         <div className="button-group">
           {currentTab > 0 && (
-            <button type="button" className="nav-button" onClick={handlePrevious}>
+            <button type="button" onClick={() => handleNavigation('previous')}>
               Previous
             </button>
           )}
-          {currentTab < tabs.length - 1 && (
-            <button type="button" className="nav-button" onClick={handleNext}>
+          {currentTab < tabs.length - 1 ? (
+            <button type="button" onClick={() => handleNavigation('next')}>
               Next
             </button>
-          )}
-          {currentTab === tabs.length - 1 && (
-            <button type="submit" className="submit-button">
-              Register
-            </button>
+          ) : (
+            <button type="submit">Register</button>
           )}
         </div>
       </form>

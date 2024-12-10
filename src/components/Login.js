@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './registration.css';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -10,17 +9,18 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(
+      (user) => user.username === username && user.password === password
+    );
 
-    // Retrieve the stored user credentials from localStorage
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-
-    if (!storedUser || storedUser.username !== username || storedUser.password !== password) {
-      setError('Invalid credentials');
+    if (!user) {
+      setError('Invalid username or password');
       return;
     }
 
+    localStorage.setItem('currentUser', JSON.stringify(user));
     setError('');
-    // Redirect to the home page upon successful login
     navigate('/');
   };
 
@@ -28,7 +28,7 @@ function Login() {
     <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <div className="form-group">
+        <div>
           <label>Username:</label>
           <input
             type="text"
@@ -37,7 +37,7 @@ function Login() {
             required
           />
         </div>
-        <div className="form-group">
+        <div>
           <label>Password:</label>
           <input
             type="password"
@@ -46,7 +46,7 @@ function Login() {
             required
           />
         </div>
-        {error && <p className="error">{error}</p>}
+        {error && <p>{error}</p>}
         <button type="submit">Login</button>
       </form>
     </div>

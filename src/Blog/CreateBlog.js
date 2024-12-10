@@ -5,21 +5,23 @@ function CreateBlog() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [activeTab, setActiveTab] = useState('create'); // New state to manage active tab
+  const [activeTab, setActiveTab] = useState('create');
   const navigate = useNavigate();
+
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+
+  const getBlogs = () => JSON.parse(localStorage.getItem('blogs')) || [];
+
+  const filterBlogsByUser = () =>
+    getBlogs().filter(blog => blog.author === currentUser.username);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newBlog = { title, content, image: imageUrl };
+    const newBlog = { title, content, image: imageUrl, author: currentUser.username };
 
-    // Get existing blogs from localStorage, or initialize an empty array
-    const storedBlogs = JSON.parse(localStorage.getItem('blogs')) || [];
-
-    // Save the new blog in localStorage
+    const storedBlogs = getBlogs();
     storedBlogs.push(newBlog);
     localStorage.setItem('blogs', JSON.stringify(storedBlogs));
-
-    // Redirect to Home page
     navigate('/');
   };
 
@@ -27,15 +29,10 @@ function CreateBlog() {
     setActiveTab(tab);
   };
 
-  const getBlogs = () => {
-    return JSON.parse(localStorage.getItem('blogs')) || [];
-  };
-
   const deleteBlog = (index) => {
     const storedBlogs = getBlogs();
     storedBlogs.splice(index, 1);
     localStorage.setItem('blogs', JSON.stringify(storedBlogs));
-    // Force a re-render after deletion
     setActiveTab('view');
   };
 
@@ -46,10 +43,9 @@ function CreateBlog() {
         <button onClick={() => handleTabSwitch('create')}>Create Blog</button>
         <button onClick={() => handleTabSwitch('view')}>View Blogs</button>
       </div>
-      
       {activeTab === 'create' ? (
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div>
             <label>Title:</label>
             <input
               type="text"
@@ -58,7 +54,7 @@ function CreateBlog() {
               required
             />
           </div>
-          <div className="form-group">
+          <div>
             <label>Content:</label>
             <textarea
               value={content}
@@ -66,7 +62,7 @@ function CreateBlog() {
               required
             />
           </div>
-          <div className="form-group">
+          <div>
             <label>Image URL:</label>
             <input
               type="url"
@@ -78,11 +74,11 @@ function CreateBlog() {
         </form>
       ) : (
         <div className="blog-list">
-          {getBlogs().length === 0 ? (
+          {filterBlogsByUser().length === 0 ? (
             <p>No blogs yet!</p>
           ) : (
             <ul>
-              {getBlogs().map((blog, index) => (
+              {filterBlogsByUser().map((blog, index) => (
                 <li key={index}>
                   <h3>{blog.title}</h3>
                   <p>{blog.content}</p>
