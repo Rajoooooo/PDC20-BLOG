@@ -102,25 +102,28 @@ function Register() {
     setCurrentTab((prev) => prev - 1);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // src/components/Registration.js
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-    if (validateTab()) {
-      const userData = {
-        ...personalInfo,
-        ...contactInfo,
-        ...additionalDetails,
-        username: accountInfo.username,
-        password: accountInfo.password,
-      };
+  if (validateTab()) {
+    const userData = {
+      ...personalInfo,
+      ...contactInfo,
+      ...additionalDetails,
+      username: accountInfo.username,
+      password: accountInfo.password,
+      fullName: `${personalInfo.firstName} ${personalInfo.lastName}`, // Store full name
+    };
 
-      // Save user data in localStorage
-      localStorage.setItem('user', JSON.stringify(userData));
+    // Save user data in localStorage
+    localStorage.setItem('user', JSON.stringify(userData));
 
-      // Redirect to login page
-      navigate('/login');
-    }
-  };
+    // Redirect to login page
+    navigate('/login');
+  }
+};
+
 
   return (
     <div className="register-container">

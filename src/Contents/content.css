@@ -1,141 +1,237 @@
+/* General Layout */
 .content-container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-  }
-  
-  .blogs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .blog-card {
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .blog-card:hover {
-    transform: translateY(-10px);
-  }
-  
-  .blog-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .blog-details {
-    padding: 15px;
-  }
-  
-  .blog-category {
-    font-size: 12px;
-    color: #888;
-    text-transform: uppercase;
-  }
-  
-  .blog-card h3 {
-    margin: 10px 0 0;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  /* src/Contents/content.css */
+}
 
-/* General Layout */
-.content-container {
-    padding: 20px;
-  }
-  
-  h1 {
+h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
-  }
-  
-  .blogs-grid {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+/* Tabs Style */
+.tabs {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tabs button {
+    padding: 12px 30px;
+    background-color: #fff;
+    color: #333;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tabs button:hover {
+    background-color: #f0f0f0;
+}
+
+.tabs button.active {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Blogs Grid */
+.blogs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-  }
-  
-  .blog-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
+    margin-top: 20px;
+}
+
+.blog-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-  
-  .blog-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .blog-image {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.blog-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 8px;
-  }
-  
-  .blog-details {
-    padding: 10px;
-  }
-  
-  .blog-details h3 {
-    font-size: 1.25rem;
-    margin-bottom: 10px;
-  }
-  
-  .blog-details p {
-    font-size: 1rem;
-    color: #666;
-  }
-  
-  /* Create Blog Page */
-  .create-blog-container {
-    max-width: 600px;
+    border-radius: 12px 12px 0 0;
+}
+
+.blog-details {
+    padding: 15px;
+}
+
+.blog-category {
+    font-size: 14px;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.blog-card h3 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Create Blog Page */
+.create-blog-container {
+    max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
     background: #f9f9f9;
-    border-radius: 8px;
-  }
-  
-  .create-blog-container form {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.create-blog-container form {
     display: flex;
     flex-direction: column;
-  }
-  
-  .create-blog-container .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .create-blog-container label {
+}
+
+.create-blog-container .form-group {
+    margin-bottom: 20px;
+}
+
+.create-blog-container label {
     font-weight: bold;
-  }
-  
-  .create-blog-container input,
-  .create-blog-container textarea {
-    padding: 10px;
+    font-size: 1rem;
+}
+
+.create-blog-container input,
+.create-blog-container textarea {
+    padding: 12px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 8px;
     margin-top: 5px;
-  }
-  
-  .create-blog-container button {
-    padding: 10px;
+    transition: border 0.3s ease;
+}
+
+.create-blog-container input:focus,
+.create-blog-container textarea:focus {
+    border-color: #007bff;
+}
+
+.create-blog-container button {
+    padding: 12px 25px;
     background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-  }
-  
-  .create-blog-container button:hover {
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.create-blog-container button:hover {
     background-color: #45a049;
-  }
-  
+}
+
+/* View Button */
+.view-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.view-button:hover {
+    background-color: #0056b3;
+}
+
+/* Delete Button */
+.delete-button {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.delete-button:hover {
+    background-color: #e63946;
+}
+
+/* Blog List */
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.blog-list ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 800px;
+}
+
+.blog-list li {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    transition: transform 0.3s ease;
+}
+
+.blog-list li:hover {
+    transform: scale(1.02);
+}
+
+.blog-list h3 {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.blog-list p {
+    font-size: 16px;
+    color: #666;
+}
+
+.blog-list img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+/* Button Styles */
+button {
+    padding: 8px 16px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #c0392b;
+}
