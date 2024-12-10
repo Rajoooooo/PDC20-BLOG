@@ -19,7 +19,7 @@ function Layout({ children }) {
   return (
     <div className="layout-container">
       <header className="navbar">
-        <div className="logo">My Website</div>
+        <div className="logo">React Chronicles</div>
         <nav>
           <Link to="/">Home</Link>
           <Link to="/blog">Blog</Link>
