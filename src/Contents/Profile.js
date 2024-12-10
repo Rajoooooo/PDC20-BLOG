@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './profile.css';
 
 function Profile() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get the stored user from localStorage
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedUser = JSON.parse(localStorage.getItem('currentUser'));
     if (storedUser) {
       setUser(storedUser);
+    } else {
+      // Redirect to login if no user is found
+      navigate('/login');
     }
-  }, []);
+  }, [navigate]);
 
   if (!user) {
     return <div>Loading...</div>;
