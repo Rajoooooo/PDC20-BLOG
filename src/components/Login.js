@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './registration.css';
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function Login() {
     // Retrieve the stored user credentials from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
-    if (!storedUser || storedUser.email !== email || storedUser.password !== password) {
+    if (!storedUser || storedUser.username !== username || storedUser.password !== password) {
       setError('Invalid credentials');
       return;
     }
@@ -27,16 +28,16 @@ function Login() {
     <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
+        <div className="form-group">
+          <label>Username:</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Password:</label>
           <input
             type="password"
