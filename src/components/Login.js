@@ -45,10 +45,10 @@ function Login() {
           </div>
           <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label>Email address:</label>
+              <label>Username:</label>
               <input
                 type="text"
-                placeholder="Enter your email"
+                placeholder="Enter your Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required

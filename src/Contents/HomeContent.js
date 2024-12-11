@@ -1,33 +1,39 @@
 import React from 'react';
-import './content.css';
-import { Link } from 'react-router-dom'; // Import Link to navigate
+import { Link } from 'react-router-dom';
+import './homecontent.css';
 
-// Function to truncate text after the first 5 words
-const truncateContent = (content, wordLimit = 5) => {
+const truncateContent = (content, wordLimit = 10) => {
   const words = content.split(' ');
-  if (words.length > wordLimit) {
-    return words.slice(0, wordLimit).join(' ') + '...';
-  }
-  return content;
+  return words.length > wordLimit ? words.slice(0, wordLimit).join(' ') + '...' : content;
 };
 
 function HomeContent({ blogs, onDelete }) {
   return (
     <div className="content-container">
-      <h1>Blogs</h1>
+      <h1 className="section-title">Blogs</h1>
       <div className="blogs-grid">
-        {blogs.map((blog, index) => (
-          <div key={index} className="blog-card">
-            <img src={blog.image || 'https://via.placeholder.com/300'} alt={blog.title} className="blog-image" />
-            <div className="blog-details">
-              <h3>{blog.title}</h3>
-              <p>{truncateContent(blog.content)}</p> {/* Display truncated content */}
-              <Link to={`/view-blog/${index}`} className="view-button">
-                Read More
-              </Link>
+        {blogs.length === 0 ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          blogs.map(blog => (
+            <div key={blog.id} className="blog-card">
+              <img
+                src={blog.image || 'https://via.placeholder.com/300'}
+                alt={blog.title}
+                className="blog-image"
+              />
+              <div className="blog-card-content">
+                <h3 className="blog-title">{blog.title}</h3>
+                <p className="blog-excerpt">{truncateContent(blog.content)}</p>
+                <div className="blog-card-footer">
+                  <Link to={`/view-blog/${blog.id}`} className="view-button">Read More</Link>
+                  {/* Uncomment if Delete functionality is needed */}
+                  {/* <button onClick={() => onDelete(blog.id)} className="delete-button">Delete</button> */}
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
