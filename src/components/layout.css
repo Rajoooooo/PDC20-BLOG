@@ -1,0 +1,79 @@
+.layout-container {
+    background-color: #f8f9fa; /* Light background for contrast */
+    min-height: 100vh; /* Ensure full height */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navbar {
+    padding: 10px 20px; /* Adjusted padding for a balanced fit */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .navbar:hover {
+    background-color: #343a40; /* Darker on hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow effect */
+  }
+  
+  .logo {
+    font-size: 32px; /* Increased font size for the logo */
+    font-weight: bold; /* Bold font for the logo */
+    color: #ffffff; /* White for contrast */
+    transition: color 0.3s ease;
+    margin-right: 50px; /* Add space to the right */
+  }
+  
+  .logo:hover {
+    color: #ffc107; /* Gold color on hover */
+  }
+  
+  .nav-link {
+    color: #ffffff; /* White for contrast */
+    font-size: 18px; /* Increased font size for nav links */
+    font-weight: bold; /* Bold font for nav links */
+    margin: 0 20px; /* Right and left margin for spacing */
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: #ffc107; /* Gold color on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+  }
+  
+  .user-info {
+    position: relative;
+  }
+  
+  .dropdown-menu {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px);
+    opacity: 0;
+    display: none; /* Initially hidden */
+  }
+  
+  .dropdown-menu.show {
+    display: block; /* Show when toggled */
+    opacity: 1; /* Fade in */
+    transform: translateY(0); /* Slide up */
+  }
+  
+  .dropdown-item {
+    transition: background-color 0.3s ease;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #343a40; /* Darker background on hover */
+  }
+  
+  .footer {
+    background-color: #343a40; /* Dark footer */
+    color: #ffffff; /* White text */
+    width: 100%;
+    padding: 20px 0; /* Padding for footer */
+    position: relative; /* Ensure footer is at the bottom */
+    margin-top: auto; /* Push footer to the bottom */
+  }
+  
+  .footer p {
+    margin: 0; /* Remove default margin */
+  }
